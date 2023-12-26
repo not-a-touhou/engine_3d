@@ -113,7 +113,7 @@ fn draw(gfx: &mut Graphics, game: &mut Game) {
         .h_align_right();
 
     game.player.draw_player(&mut draw);
-    game.map.draw_map(&mut draw);
+    game.map.draw_map(&mut draw, &game.player);
     game.mouse.draw_cursor(&mut draw);
 
     gfx.render(&draw);

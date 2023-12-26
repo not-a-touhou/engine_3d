@@ -10,6 +10,7 @@ pub struct Player {
     radius: f32,
     speed: f32,
     velocity: (f32, f32),
+    pub clip_depth: f32,
 }
 
 impl Player {
@@ -22,7 +23,8 @@ impl Player {
             can_move: true,
             radius: 15.,
             speed: 300.,
-            velocity: (0., 0.)
+            velocity: (0., 0.),
+            clip_depth: 0.1,
         }
     }
 

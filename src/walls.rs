@@ -6,7 +6,7 @@ use notan::{
     app::Color
 };
 
-use crate::{SCREEN_WIDTH, SCREEN_HEIGHT};
+use crate::{SCREEN_WIDTH, SCREEN_HEIGHT, player::Player};
 
 
 #[derive(Clone)]
@@ -67,6 +67,22 @@ impl Line {
         self.p1.rotate(angle);
         self.p2.rotate(angle);
     }
+
+    fn clip_line(&self, player: &Player) -> Self {
+        let (front, back) = if self.p1.y < player.clip_depth {
+            (&self.p1, &self.p2)
+        } else {
+            (&self.p2, &self.p1)
+        };
+
+        let size = front.y - back.y;
+
+        let percentage = front.y / size;
+
+        let clip_x = front.x + (back.x - front.x) * percentage;
+
+        return Line::new_line(front.clone(), Point { x: clip_x, y: player.clip_depth })
+    }
 }
 
 #[derive(Clone)]
@@ -92,9 +108,9 @@ impl Map {
         }
     }
 
-    pub fn draw_map(&self, draw: &mut Draw) {
-        for line in &self.vec {
-            Line::draw_line(line, draw);
+    pub fn draw_map(&mut self, draw: &mut Draw, player: &Player) {
+        for line in &mut self.clip_walls(player).clone() {
+            Line::draw_line(&line, draw);
         }
     }
 
@@ -109,5 +125,22 @@ impl Map {
             line.rotate(-angle)
         }
     }
+
+    fn clip_walls(&mut self, player: &Player) -> Vec<Line> {
+        let mut vec = Vec::new();
+
+        for line in &self.vec {
+            if line.p1.y <= player.clip_depth && line.p2.y <= player.clip_depth {
+                vec.push(line.clone());
+            } else if line.p1.y > player.clip_depth && line.p2.y > player.clip_depth {
+                continue;
+            } else {
+                vec.push(line.clip_line(&player));
+            }
+        }
+
+        vec
+    }
+
 }
 
