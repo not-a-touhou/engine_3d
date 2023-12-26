@@ -75,10 +75,11 @@ impl Line {
             (&self.p2, &self.p1)
         };
 
+        // vertical size of the line
         let size = front.y - back.y;
-
+        // divide point in front by size to get a percentage
         let percentage = front.y / size;
-
+        // set the x as itself multiplied by the percentage of the line we can see
         let clip_x = front.x + (back.x - front.x) * percentage;
 
         return Line::new_line(front.clone(), Point { x: clip_x, y: player.clip_depth })
@@ -130,10 +131,14 @@ impl Map {
         let mut vec = Vec::new();
 
         for line in &self.vec {
+            // is the line entirely in front of us?
             if line.p1.y <= player.clip_depth && line.p2.y <= player.clip_depth {
                 vec.push(line.clone());
+            // is the line entirely behind us?
             } else if line.p1.y > player.clip_depth && line.p2.y > player.clip_depth {
                 continue;
+            // if not, then it must be half in front, half behind.
+            // therefore we must clip it
             } else {
                 vec.push(line.clip_line(&player));
             }
