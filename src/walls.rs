@@ -24,8 +24,8 @@ impl Point {
     }
 
     pub fn translate(&mut self, x_dist: f32, y_dist: f32) {
-        self.x += x_dist + SCREEN_WIDTH / 2.0;
-        self.y += y_dist + SCREEN_HEIGHT / 2.0;
+        self.x += x_dist;
+        self.y += y_dist;
     }
 
     pub fn rotate(&mut self, angle: f32) {
@@ -49,7 +49,10 @@ impl Line {
     }
 
     fn draw_line(line: &Line, draw: &mut Draw) {
-        draw.line((line.p1.x, line.p1.y), (line.p2.x, line.p2.y))
+        draw.line(
+            (line.p1.x + SCREEN_WIDTH / 2., line.p1.y + SCREEN_HEIGHT / 2.), 
+            (line.p2.x + SCREEN_WIDTH / 2., line.p2.y + SCREEN_HEIGHT / 2.)
+        )
             .color(Color::WHITE)
             .width(3.0);
     }
@@ -75,9 +78,16 @@ impl Map {
     pub fn init() -> Self {
         Map {
             vec: vec![
+                // triangle
                 Line::new_line(Point::new(15.0, 15.0), Point::new(10.0, 480.0)),
-                // Line::new_line(Point::new(10.0, 480.0), Point::new(740.0, 890.0)),
-                // Line::new_line(Point::new(740.0, 890.0), Point::new(15.0, 15.0)),
+                Line::new_line(Point::new(10.0, 480.0), Point::new(740.0, 890.0)),
+                Line::new_line(Point::new(740.0, 890.0), Point::new(15.0, 15.0)),
+
+                //square
+                Line::new_line(Point::new(1000.0, 1100.0), Point::new(1000.0, 1500.0)),
+                Line::new_line(Point::new(1000.0, 1500.0), Point::new(600.0, 1500.0)),
+                Line::new_line(Point::new(600.0, 1500.0),  Point::new(600.0, 1100.0)),
+                Line::new_line(Point::new(600.0, 1100.0),  Point::new(1000.0, 1100.0)),
             ]
         }
     }

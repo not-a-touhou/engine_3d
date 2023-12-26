@@ -15,8 +15,8 @@ pub struct Player {
 impl Player {
     pub fn init() -> Self {
         Player {
-            x: SCREEN_WIDTH / 2.,
-            y: SCREEN_HEIGHT / 2.,
+            x: 0.0,
+            y: 0.0,
             proj_x: 0.,
             proj_y: 0.,
             can_move: true,
@@ -29,10 +29,10 @@ impl Player {
 
     pub fn draw_player(&self, draw: &mut Draw) {
         draw.circle(self.radius)
-            .position(self.x, self.y)
+            .position(self.x + SCREEN_WIDTH / 2.0, self.y + SCREEN_HEIGHT / 2.0)
             .color(Color::TEAL);
 
-        draw.line((self.x, self.y), (self.x, self.y - 35.0))
+        draw.line((self.x + SCREEN_WIDTH / 2.0, self.y + SCREEN_HEIGHT / 2.0), (self.x + SCREEN_WIDTH / 2.0, self.y - 35.0 + SCREEN_HEIGHT / 2.0))
             .color(Color::TEAL)
             .width(5.0);
     }
@@ -55,10 +55,10 @@ impl Player {
         }
 
         if app.keyboard.is_down(KeyCode::Left) {
-            map.rotate(0.01);
+            map.rotate(-0.005);
         }
         if app.keyboard.is_down(KeyCode::Right) {
-            map.rotate(0.01);
+            map.rotate(0.005);
         }
 
         self.velocity.0 *= dt;
