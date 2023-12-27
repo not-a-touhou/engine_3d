@@ -22,7 +22,7 @@ impl Player {
             proj_y: 0.,
             can_move: true,
             radius: 15.,
-            speed: 300.,
+            speed: 150.,
             velocity: (0., 0.),
             clip_depth: 0.1,
         }
@@ -57,10 +57,10 @@ impl Player {
         }
 
         if app.keyboard.is_down(KeyCode::Left) {
-            map.rotate(-0.005);
+            map.rotate(0.005);
         }
         if app.keyboard.is_down(KeyCode::Right) {
-            map.rotate(0.005);
+            map.rotate(-0.005);
         }
 
         self.velocity.0 *= dt;
@@ -80,7 +80,7 @@ impl Player {
         }
 
 
-        map.translate(self.velocity.0, self.velocity.1);
+        map.translate(-self.velocity.0, self.velocity.1);
 
         
     }

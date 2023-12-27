@@ -1,12 +1,14 @@
 use notan::{
     draw::{
         Draw, 
-        DrawShapes
+        DrawShapes, DrawTransform
     }, 
     app::Color
 };
 
 use crate::{SCREEN_WIDTH, SCREEN_HEIGHT, player::Player};
+const WALL_HEIGHT: f32 = 100.0;
+const SCALE: f32 = SCREEN_HEIGHT;
 
 
 #[derive(Clone)]
@@ -32,6 +34,21 @@ impl Point {
         self.x = self.x * angle.cos() - self.y * angle.sin();
         self.y = self.x * angle.sin() + self.y * angle.cos();
     }
+
+    pub fn to_draw(&self) -> Self {
+        let depth = self.y;
+        let depth_scale = 1.0 / depth * SCREEN_HEIGHT;
+
+        let mut transformed = Point::new(self.x, WALL_HEIGHT/2.0);
+
+        transformed.x *= depth_scale;
+        transformed.y *= depth_scale;
+
+        transformed.x += SCREEN_WIDTH / 2.0;
+        transformed.y += 0.0;
+
+        return transformed
+    }
 }
 
 #[derive(Clone)]
@@ -49,12 +66,38 @@ impl Line {
     }
 
     fn draw_line(line: &Line, draw: &mut Draw) {
+        // draw.line(
+        //     (line.p1.x + SCREEN_WIDTH / 2., line.p1.y + SCREEN_HEIGHT / 2.), 
+        //     (line.p2.x + SCREEN_WIDTH / 2., line.p2.y + SCREEN_HEIGHT / 2.)
+        // )
+        //     .color(Color::WHITE)
+        //     .width(3.0);
+        let p1 = line.p1.to_draw();
+        let p2 = line.p2.to_draw();
+
+        let vcenter = SCREEN_HEIGHT / 2.0;
+
+        // bottom edge
         draw.line(
-            (line.p1.x + SCREEN_WIDTH / 2., line.p1.y + SCREEN_HEIGHT / 2.), 
-            (line.p2.x + SCREEN_WIDTH / 2., line.p2.y + SCREEN_HEIGHT / 2.)
-        )
-            .color(Color::WHITE)
-            .width(3.0);
+            (p1.x, vcenter + p1.y),
+            (p2.x, vcenter + p2.y)
+        ).color(Color::WHITE).width(3.0);
+
+        // top edge
+        draw.line(
+            (p1.x, (vcenter - p1.y)),
+            (p2.x, (vcenter - p2.y))
+        ).color(Color::WHITE).width(3.0);
+        
+        // vertical lines
+        draw.line(
+            (p1.x, (vcenter - p1.y)),
+            (p1.x, (vcenter + p1.y))
+        ).color(Color::WHITE).width(3.0);
+        draw.line(
+            (p2.x, (vcenter - p2.y)),
+            (p2.x, (vcenter + p2.y))
+        ).color(Color::WHITE).width(3.0);
     }
 
 
@@ -140,7 +183,9 @@ impl Map {
             // if not, then it must be half in front, half behind.
             // therefore we must clip it
             } else {
-                vec.push(line.clip_line(&player));
+                //vec.push(line.clip_line(&player));
+                continue;
+                
             }
         }
 

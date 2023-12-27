@@ -105,14 +105,21 @@ fn update(app: &mut App, game: &mut Game) {
 
 fn draw(gfx: &mut Graphics, game: &mut Game) {
     let mut draw = gfx.create_draw();
-    draw.clear(Color::BLACK);
+    draw.clear(Color::GRAY);
 
+    // just so i don't get a warning for not using the font :3
     draw.text(&game.font, ":3")
         .position(SCREEN_WIDTH - 15., 15.)
         .color(Color::WHITE)
         .h_align_right();
 
-    game.player.draw_player(&mut draw);
+    // draw the horizon
+    let horizon = SCREEN_HEIGHT / 2.0;
+    draw.line((0.0, horizon), (SCREEN_WIDTH, horizon))
+        .color(Color::BLUE)
+        .width(3.0);
+
+    //game.player.draw_player(&mut draw);
     game.map.draw_map(&mut draw, &game.player);
     game.mouse.draw_cursor(&mut draw);
 
