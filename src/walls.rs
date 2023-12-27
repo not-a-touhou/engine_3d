@@ -1,14 +1,13 @@
 use notan::{
     draw::{
         Draw, 
-        DrawShapes, DrawTransform
+        DrawShapes,
     }, 
     app::Color
 };
 
 use crate::{SCREEN_WIDTH, SCREEN_HEIGHT, player::Player};
 const WALL_HEIGHT: f32 = 100.0;
-const SCALE: f32 = SCREEN_HEIGHT;
 
 
 #[derive(Clone)]
@@ -66,12 +65,6 @@ impl Line {
     }
 
     fn draw_line(line: &Line, draw: &mut Draw) {
-        // draw.line(
-        //     (line.p1.x + SCREEN_WIDTH / 2., line.p1.y + SCREEN_HEIGHT / 2.), 
-        //     (line.p2.x + SCREEN_WIDTH / 2., line.p2.y + SCREEN_HEIGHT / 2.)
-        // )
-        //     .color(Color::WHITE)
-        //     .width(3.0);
         let p1 = line.p1.to_draw();
         let p2 = line.p2.to_draw();
 
@@ -111,6 +104,7 @@ impl Line {
         self.p2.rotate(angle);
     }
 
+    #[allow(dead_code)]
     fn clip_line(&self, player: &Player) -> Self {
         let (front, back) = if self.p1.y < player.clip_depth {
             (&self.p1, &self.p2)

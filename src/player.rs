@@ -1,5 +1,5 @@
-use notan::{draw::{Draw, DrawShapes}, app::{Color, App}, input::keyboard::KeyCode};
-use crate::{SCREEN_WIDTH, SCREEN_HEIGHT, walls::{Map, Line, Point}, math::{distance, line_point}};
+use notan::{app::App, input::keyboard::KeyCode};
+use crate::{walls::{Map, Line, Point}, math::{distance, line_point}};
 
 pub struct Player {
     x: f32,
@@ -28,16 +28,6 @@ impl Player {
         }
     }
 
-
-    pub fn draw_player(&self, draw: &mut Draw) {
-        draw.circle(self.radius)
-            .position(self.x + SCREEN_WIDTH / 2.0, self.y + SCREEN_HEIGHT / 2.0)
-            .color(Color::TEAL);
-
-        draw.line((self.x + SCREEN_WIDTH / 2.0, self.y + SCREEN_HEIGHT / 2.0), (self.x + SCREEN_WIDTH / 2.0, self.y - 35.0 + SCREEN_HEIGHT / 2.0))
-            .color(Color::TEAL)
-            .width(5.0);
-    }
 
     pub fn move_player(&mut self, app: &mut App, map: &mut Map, dt: f32) {
         self.velocity = (0., 0.);
