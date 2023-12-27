@@ -116,7 +116,12 @@ fn draw(gfx: &mut Graphics, game: &mut Game) {
     // draw the horizon
     let horizon = SCREEN_HEIGHT / 2.0;
     draw.line((0.0, horizon), (SCREEN_WIDTH, horizon))
-        .color(Color::BLUE)
+        .color(Color{
+            r: 0.329,
+            g: 0.329,
+            b: 0.329,
+            a: 1.0,
+        })
         .width(3.0);
 
     //game.player.draw_player(&mut draw);

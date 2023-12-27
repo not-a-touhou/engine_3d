@@ -142,6 +142,13 @@ impl Map {
                 Line::new_line(Point::new(1000.0, 1500.0), Point::new(600.0, 1500.0)),
                 Line::new_line(Point::new(600.0, 1500.0),  Point::new(600.0, 1100.0)),
                 Line::new_line(Point::new(600.0, 1100.0),  Point::new(1000.0, 1100.0)),
+
+                //pentagon
+                Line::new_line(Point::new(1500.0, 400.0),  Point::new(1650.0, 250.0)),
+                Line::new_line(Point::new(1650.0, 250.0),  Point::new(1600.0, 0.1)),
+                Line::new_line(Point::new(1600.0, 0.1),  Point::new(1400.0, 0.1)),
+                Line::new_line(Point::new(1400.0, 0.1),  Point::new(1350.0, 250.0)),
+                Line::new_line(Point::new(1350.0, 250.0),  Point::new(1500.0, 400.0)),
             ]
         }
     }

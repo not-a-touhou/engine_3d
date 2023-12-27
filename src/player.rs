@@ -32,6 +32,14 @@ impl Player {
     pub fn move_player(&mut self, app: &mut App, map: &mut Map, dt: f32) {
         self.velocity = (0., 0.);
 
+        //sprint
+        if app.keyboard.is_down(KeyCode::LShift) {
+            self.speed = 300.0;
+        } else {
+            self.speed = 150.0
+        }
+
+
         if app.keyboard.is_down(KeyCode::A) {
             (self.velocity.0, self.velocity.1) = (self.speed, self.velocity.1);
         }
