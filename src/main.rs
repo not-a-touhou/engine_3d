@@ -4,11 +4,12 @@ use notan::{
     draw::{
         DrawConfig, 
         CreateFont, 
-        Font,
-        CreateDraw,
+//        Font,
+//        CreateDraw,
         Draw,
         DrawShapes,
-        DrawTextSection
+        DrawTextSection,
+        CreateDraw
     }
 };
 #[allow(unused_braces)]
@@ -60,7 +61,7 @@ impl Mouse {
 
 #[derive(AppState)]
 struct Game {
-    font: Font,
+//    font: Font,
     mouse: Mouse,
     delta_time: f32,
     map: Map,
@@ -68,10 +69,10 @@ struct Game {
 }
 
 impl Game {
-    fn init(app: &mut App, gfx: &mut Graphics) -> Self {
-        let font = gfx
-            .create_font(include_bytes!(".\\assets\\fonts\\OverpassMono-VariableFont_wght.ttf"))
-            .unwrap();
+    fn init(app: &mut App, _gfx: &mut Graphics) -> Self {
+        //let font = gfx
+        //    .create_font(include_bytes!(".\\assets\\fonts\\OverpassMono-VariableFont_wght.ttf"))
+        //    .unwrap();
 
         let (mouse_x, mouse_y) = app.mouse.position();
 
@@ -79,7 +80,7 @@ impl Game {
 
 
         Game {
-            font,
+//            font,
             mouse: Mouse {
                 x: mouse_x,
                 y: mouse_y
@@ -108,10 +109,10 @@ fn draw(gfx: &mut Graphics, game: &mut Game) {
     draw.clear(Color::GRAY);
 
     // just so i don't get a warning for not using the font :3
-    draw.text(&game.font, ":3")
-        .position(SCREEN_WIDTH - 15., 15.)
-        .color(Color::WHITE)
-        .h_align_right();
+    //draw.text(&game.font, ":3")
+    //    .position(SCREEN_WIDTH - 15., 15.)
+    //    .color(Color::WHITE)
+    //    .h_align_right();
 
     // draw the horizon
     let horizon = SCREEN_HEIGHT / 2.0;
